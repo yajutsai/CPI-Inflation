@@ -36,9 +36,4 @@ This project uses data from the [U.S. Bureau of Labor Statistics](https://www.bl
 
 
 
-- Browse through different consumer items
-- View price trends through interactive charts
-- Access detailed historical data in tabular format
-- Sort data by date to see the most recent prices first
-
 
