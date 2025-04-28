@@ -24,8 +24,9 @@ This project uses data from the [U.S. Bureau of Labor Statistics](https://www.bl
 ## Requirements
 - PHP 7.0 or higher
 - XAMPP (or similar web server)
-- BLS API key## Installation
+- BLS API key
 
+## Installation
 1. Clone the repository
 2. Set up a local web server (e.g., XAMPP)
 3. Place the files in your web server directory
