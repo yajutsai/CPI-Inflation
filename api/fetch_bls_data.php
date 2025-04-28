@@ -1,4 +1,13 @@
 <?php
+// API key for BLS API
+define('BLS_API_KEY', 'your_api_key_here');
+
+function handleBlsError($seriesData) {
+    if (isset($seriesData['error'])) {
+        die('Error: ' . $seriesData['error']);
+    }
+}
+
 function getDateRange() {
     $year = date('Y');
     $month = date('m');
@@ -29,7 +38,7 @@ function getDateRange() {
     ];
 }
 
-function fetchBlsData($seriesIds, $startdate, $enddate, $apiKey) {
+function fetchBlsData($seriesIds, $startdate, $enddate, $apiKey = BLS_API_KEY) {
     $query = array(
         'seriesid' => $seriesIds,
         'startdate' => $startdate,

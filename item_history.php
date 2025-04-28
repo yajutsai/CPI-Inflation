@@ -1,6 +1,7 @@
 <?php
 require_once 'api/fetch_bls_data.php';
 require_once 'ap_item_mapping.php';
+require_once 'includes/footer.php';
 
 // Get series ID from URL parameter
 $seriesID = isset($_GET['seriesID']) ? $_GET['seriesID'] : null;
@@ -10,36 +11,16 @@ if (!$seriesID) {
 }
 
 // Generate ap_item_mapping from item_code_name_mapping
-$ap_item_mapping = [];
-if (isset($item_code_name_mapping) && is_array($item_code_name_mapping)) {
-    foreach ($item_code_name_mapping as $item_code => $description) {
-        if (preg_match('/^[A-Z]{2}\d{4}$/', $item_code)) {
-            $series_id = 'APU0000' . $item_code;
-        } elseif (strlen($item_code) == 6 && ctype_digit($item_code)) {
-            $series_id = 'APU0000' . $item_code;
-        } elseif (strlen($item_code) == 5 && ctype_digit($item_code)) {
-            $series_id = 'APU0000' . $item_code . '1';
-        } elseif ($item_code === '7471A') {
-            $series_id = 'APU00007471A';
-        } else {
-            continue;
-        }
-        $ap_item_mapping[$series_id] = $description ?: 'Unknown';
-    }
-}
+$ap_item_mapping = generateApItemMapping();
 
 // Get item description from mapping
 $description = $ap_item_mapping[$seriesID] ?? 'Unknown Item';
 
 // Fetch historical data
-$apiKey = '28795f7fc7ad4895b96d84706bf05785';
 $startdate = '2000-01';
 $enddate = date('Y-m');
-$seriesData = fetchBlsData([$seriesID], $startdate, $enddate, $apiKey);
-
-if (isset($seriesData['error'])) {
-    die('Error: ' . $seriesData['error']);
-}
+$seriesData = fetchBlsData([$seriesID], $startdate, $enddate);
+handleBlsError($seriesData);
 
 // Process data
 $historicalData = [];
@@ -155,14 +136,6 @@ $chartValues = array_reverse($chartValues);
         </table>
     </section>
 
-    <footer>
-        <h3>Data provided by the <a href="https://www.bls.gov" target="_blank">U.S. Bureau of Labor Statistics</a></h3>
-        <h3>Created by Hazel Tsai</h3>
-        <h3>Follow me on
-            <a class="social-icon" href="https://www.linkedin.com/in/hazel-tsai/" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a class="social-icon" href="https://github.com/Hazel-tsai" target="_blank"><i class="fa-brands fa-github"></i></a>
-            <a class="social-icon" href="https://www.instagram.com/tsai_yaju_0918" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-        </h3>
-    </footer>
+    <?php renderFooter(); ?>
 </body>
 </html>

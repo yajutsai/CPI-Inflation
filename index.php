@@ -1,6 +1,7 @@
 <?php
 require_once 'api/fetch_bls_data.php';
 require_once 'ap_item_mapping.php';
+require_once 'includes/footer.php';
 
 // 獲取日期範圍
 $dateRange = getDateRange();
@@ -10,32 +11,8 @@ $latestDate = $dateRange['latest_date'];
 $previousDate = $dateRange['previous_date'];
 
 // Generate series IDs from $item_code_name_mapping
-$seriesIds = [];
-$ap_item_mapping = [];
-if (isset($item_code_name_mapping) && is_array($item_code_name_mapping)) {
-    foreach ($item_code_name_mapping as $item_code => $description) {
-        if (preg_match('/^[A-Z]{2}\d{4}$/', $item_code)) {
-            $series_id = 'APU0000' . $item_code;
-        } elseif (strlen($item_code) == 6 && ctype_digit($item_code)) {
-            $series_id = 'APU0000' . $item_code;
-        } elseif (strlen($item_code) == 5 && ctype_digit($item_code)) {
-            $series_id = 'APU0000' . $item_code . '1';
-        } elseif ($item_code === '7471A') {
-            $series_id = 'APU00007471A';
-        } else {
-            continue;
-        }
-        $seriesIds[] = $series_id;
-        $ap_item_mapping[$series_id] = $description ?: 'Unknown';
-    }
-} else {
-    $ap_item_mapping = [
-        'APU0000701111' => 'Flour, white, all purpose, per lb. (453.6 gm)',
-        'APU0000702111' => 'Breakfast cereal',
-        'APU0000703111' => 'Rice, pasta, cornmeal',
-    ];
-    $seriesIds = array_keys($ap_item_mapping);
-}
+$ap_item_mapping = generateApItemMapping();
+$seriesIds = array_keys($ap_item_mapping);
 
 // Split series IDs into chunks of 50 (BLS API limit)
 $seriesChunks = array_chunk($seriesIds, 50);
@@ -44,12 +21,9 @@ $seriesChunks = array_chunk($seriesIds, 50);
 $allResults = [];
 
 // Fetch data for each chunk
-$apiKey = '28795f7fc7ad4895b96d84706bf05785';
 foreach ($seriesChunks as $chunk) {
-    $seriesData = fetchBlsData($chunk, $startdate, $enddate, $apiKey);
-    if (isset($seriesData['error'])) {
-        die('Error: ' . $seriesData['error']);
-    }
+    $seriesData = fetchBlsData($chunk, $startdate, $enddate);
+    handleBlsError($seriesData);
     $allResults = array_merge($allResults, $seriesData);
 }
 
@@ -166,14 +140,6 @@ usort($decreases, function($a, $b) {
         </div>
     </section>
 
-    <footer>
-        <h3>Data provided by the <a href="https://www.bls.gov" target="_blank">U.S. Bureau of Labor Statistics</a></h3>    
-        <h3>Created by Hazel Tsai</h3>
-        <h3>Follow me on
-            <a class="social-icon" href="https://www.linkedin.com/in/hazel-tsai/" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a class="social-icon" href="https://github.com/Hazel-tsai" target="_blank"><i class="fa-brands fa-github"></i></a>
-            <a class="social-icon" href="https://www.instagram.com/tsai_yaju_0918" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-        </h3>
-    </footer>
+    <?php renderFooter(); ?>
 </body>
 </html>

@@ -6,6 +6,7 @@ body {
     width: 100vw; 
     overflow-x: hidden; 
     overflow-y: auto; 
+    font-size: 16px; /* 設定基礎字體大小 */
 }
 
 header, section, footer { 
@@ -262,4 +263,242 @@ footer a:hover {
 
 .table-container tr:hover {
     background-color: #709ac2; /* Light blue on hover */
+}
+
+/* Media Queries for Responsive Design */
+@media screen and (max-width: 1400px) {
+    body {
+        font-size: 15px;
+    }
+    
+    .chart-container {
+        width: 85%;
+        height: 55vh;
+    }
+    
+    .table-container table {
+        width: 80%;
+    }
+    
+    .trend-item {
+        width: 45%;
+        max-width: 220px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    body {
+        font-size: 14px;
+    }
+    
+    .chart-container {
+        width: 90%;
+        height: 50vh;
+    }
+    
+    .table-container table {
+        width: 90%;
+    }
+    
+    .trend-item {
+        width: 45%;
+        max-width: 200px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    body {
+        font-size: 13px;
+    }
+    
+    .chart-container {
+        width: 95%;
+        height: 45vh;
+    }
+    
+    .table-container table {
+        width: 95%;
+    }
+    
+    .trend-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .trend-block {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+    
+    .trend-item {
+        width: 45%;
+        max-width: 180px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 12px;
+    }
+    
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    h3 {
+        font-size: 1.4em;
+    }
+    
+    h4 {
+        font-size: 1.2em;
+    }
+    
+    p {
+        font-size: 1.1em;
+    }
+    
+    .chart-container {
+        width: 95%;
+        height: 40vh;
+        padding: 10px;
+    }
+    
+    .table-container {
+        width: 95%;
+    }
+    
+    .table-container table {
+        width: 100%;
+        font-size: 1em;
+    }
+    
+    .trend-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+    
+    .trend-block {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .trend-item {
+        width: 45%;
+        height: 120px;
+    }
+    
+    .trend-item span {
+        font-size: 1em;
+    }
+    
+    .table-container th,
+    .table-container td {
+        padding: 8px;
+        font-size: 1em;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    body {
+        font-size: 11px;
+    }
+    
+    h1 {
+        font-size: 1.6em;
+    }
+    
+    h3 {
+        font-size: 1.3em;
+    }
+    
+    h4 {
+        font-size: 1.1em;
+    }
+    
+    p {
+        font-size: 1em;
+    }
+    
+    .chart-container {
+        height: 35vh;
+        padding: 5px;
+    }
+    
+    .trend-item {
+        width: 100%;
+        height: 100px;
+        max-width: none;
+    }
+    
+    .trend-item span {
+        font-size: 0.9em;
+    }
+    
+    .table-container th,
+    .table-container td {
+        padding: 5px;
+        font-size: 0.9em;
+    }
+    
+    .social-icon i {
+        font-size: 16px;
+    }
+    
+    section {
+        padding: 0px 10px 0px 0px;
+    }
+    
+    .trend-block {
+        padding: 10px 5px 5px 5px;
+    }
+}
+
+/* Landscape mode for mobile devices */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .chart-container {
+        height: 70vh;
+    }
+    
+    .table-container {
+        max-height: 60vh;
+    }
+    
+    .trend-container {
+        flex-direction: row;
+    }
+    
+    .trend-block {
+        width: 48%;
+    }
+    
+    .trend-item {
+        height: 80px;
+    }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        font-size: 12pt;
+    }
+    
+    .chart-container {
+        page-break-inside: avoid;
+    }
+    
+    .table-container {
+        max-height: none;
+    }
+    
+    .trend-container {
+        page-break-inside: avoid;
+    }
 }

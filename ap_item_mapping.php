@@ -266,4 +266,31 @@ $ap_item_mapping = array(
     'APU0000773111' => 'Tomatoes',
     'APU0000774111' => 'Other fresh vegetables'
 );
+
+function generateApItemMapping($item_code_name_mapping = null) {
+    $ap_item_mapping = [];
+    
+    if ($item_code_name_mapping === null) {
+        global $item_code_name_mapping;
+    }
+    
+    if (isset($item_code_name_mapping) && is_array($item_code_name_mapping)) {
+        foreach ($item_code_name_mapping as $item_code => $description) {
+            if (preg_match('/^[A-Z]{2}\d{4}$/', $item_code)) {
+                $series_id = 'APU0000' . $item_code;
+            } elseif (strlen($item_code) == 6 && ctype_digit($item_code)) {
+                $series_id = 'APU0000' . $item_code;
+            } elseif (strlen($item_code) == 5 && ctype_digit($item_code)) {
+                $series_id = 'APU0000' . $item_code . '1';
+            } elseif ($item_code === '7471A') {
+                $series_id = 'APU00007471A';
+            } else {
+                continue;
+            }
+            $ap_item_mapping[$series_id] = $description ?: 'Unknown';
+        }
+    }
+    
+    return $ap_item_mapping;
+}
 ?> 
